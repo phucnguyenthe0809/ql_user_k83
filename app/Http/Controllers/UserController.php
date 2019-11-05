@@ -6,10 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\Users;
 class UserController extends Controller
 {
-    function getUser() {
+    function getUser(request $r) {
         // truyền biên sang view
         //paginate(số bản ghi trong 1 trang)
-        $data['users']=Users::paginate(10);
+        if($r->has('search'))
+        {
+            $keyWord=$r->search;
+            $data['users']=Users::where('full','like',"%$keyWord%")->paginate(10);
+        }
+        else {
+            $data['users']=Users::paginate(10);
+        }
+       
         // render view
         return view('user',$data);
     }
@@ -75,5 +83,10 @@ class UserController extends Controller
         //back lại trang submit
         //->with(key,value) : tạo 1 session flash
         return redirect()->back()->with('thongBao','Đã sửa thành công');
+    }
+    function delUser($idUser)
+    {
+        Users::destroy($idUser);
+        return redirect()->back();
     }
 }

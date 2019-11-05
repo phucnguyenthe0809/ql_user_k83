@@ -80,6 +80,4 @@ Route::post('add','UserController@postAddUser' );
 
 Route::get('edit/{idUser}','UserController@getEditUser' );
 Route::post('edit/{idUser}','UserController@postEditUser' );
-Route::get('xinchao', function () {
-    echo '<h1>VIETPRO</h1>';
-});
+Route::get('del/{idUser}','UserController@delUser');
